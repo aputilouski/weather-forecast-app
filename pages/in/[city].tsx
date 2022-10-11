@@ -21,7 +21,7 @@ const Page: NextPage = () => {
 
       <div>
         <Search //
-          loadItems={getCitiesByName}
+          loadItems={text => getCitiesByName(text).then(data => data.locations)}
           renderItem={item => (
             <p onClick={() => Router.push('/in/' + item.name)} className="py-1 px-4 hover:bg-gray-100 cursor-pointer">
               {item.name} <span className="text-gray-400">({item.country})</span>

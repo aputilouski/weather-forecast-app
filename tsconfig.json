@@ -17,6 +17,7 @@
     "baseUrl": ".",
     "paths": {
       "@components": ["components/index.tsx"],
+      "@utils/*": ["utils/*"],
       "@api": ["api.ts"]
     }
   },

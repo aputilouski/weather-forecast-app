@@ -3,7 +3,15 @@ const API_HEADERS = {
   'X-RapidAPI-Host': 'foreca-weather.p.rapidapi.com',
 };
 
-export const getUserLocation = <T>(longitude: number, latitude: number): Promise<UserLocation> =>
+export const getCitiesByName = (name: string): Promise<LocationInfo[]> =>
+  fetch(
+    `https://foreca-weather.p.rapidapi.com/location/search/${name}?lang=en`, //
+    { method: 'GET', headers: API_HEADERS }
+  )
+    .then(response => response.json())
+    .then(data => data.locations);
+
+export const getLocationInfo = (longitude: number, latitude: number): Promise<LocationInfo> =>
   fetch(
     `https://foreca-weather.p.rapidapi.com/location/${longitude},${latitude}`, //
     { method: 'GET', headers: API_HEADERS }

@@ -2,7 +2,7 @@ import React from 'react';
 import type { NextPage } from 'next';
 import Link from 'next/link';
 import { Alert } from 'flowbite-react';
-import { getUserLocation } from '@api';
+import { getLocationInfo } from '@api';
 
 const baseLocations = [
   { label: 'Minsk' }, //
@@ -15,16 +15,16 @@ const Page: NextPage = () => {
 
   const [error, setError] = React.useState<string>();
 
-  React.useEffect(() => {
-    if (!navigator.geolocation) return;
-    navigator.geolocation.getCurrentPosition(function (pos) {
-      const { latitude, longitude } = pos.coords;
-      console.log(pos.coords);
-      getUserLocation(longitude, latitude) //
-        .then(response => console.log(response))
-        .catch(err => console.error(err));
-    });
-  }, []);
+  // React.useEffect(() => {
+  //   if (!navigator.geolocation) return;
+  //   navigator.geolocation.getCurrentPosition(function (pos) {
+  //     const { latitude, longitude } = pos.coords;
+  //     console.log(pos.coords);
+  //     getLocationInfo(longitude, latitude) //
+  //       .then(response => console.log(response))
+  //       .catch(err => console.error(err));
+  //   });
+  // }, []);
 
   return (
     <div>
@@ -32,7 +32,7 @@ const Page: NextPage = () => {
 
       <h1 className="my-4">Welcome to the weather forecast app</h1>
 
-      <div>
+      <div className="mb-4">
         <p>Most popular locations:</p>
         <div className="flex gap-3">
           {baseLocations.map((l, i) => (
@@ -45,7 +45,7 @@ const Page: NextPage = () => {
 
       <div>
         <Link href="/in">
-          <a>Hourly weather and 10 day forecast</a>
+          <a className="text-blue-600 hover:underline">Hourly weather and 10 day forecast</a>
         </Link>
       </div>
     </div>

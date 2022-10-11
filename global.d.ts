@@ -1,7 +1,7 @@
 export {};
 
 declare global {
-  type UserLocation = {
+  type LocationInfo = {
     id: number;
     name: string;
     country: string;

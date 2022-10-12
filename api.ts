@@ -63,3 +63,9 @@ export const getLocationInfo = (longitude: number, latitude: number): Promise<Lo
     `https://foreca-weather.p.rapidapi.com/location/${longitude},${latitude}`, //
     { method: 'GET', headers: API_HEADERS }
   ).then(response => response.json());
+
+export const getTenDayForecast = (id: number): Promise<WeatherForecastInfo> =>
+  fetch(
+    `https://foreca-weather.p.rapidapi.com/forecast/daily/${id}?alt=0&tempunit=C&windunit=MS&periods=10`, //
+    { method: 'GET', headers: API_HEADERS }
+  ).then(response => response.json());

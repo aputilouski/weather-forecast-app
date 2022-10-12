@@ -3,7 +3,9 @@ import { useDebounce } from '@utils/hooks';
 import { Scrollbars } from 'react-custom-scrollbars';
 import Dropdown from './Dropdown';
 import useSWRImmutable from 'swr/immutable';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 // import { Dropdown} from 'flowbite-react';
+import { Alert, Spinner } from 'flowbite-react';
 
 type SearchProps = {
   loadItems: (text: string) => Promise<any[]>;
@@ -18,7 +20,6 @@ const Search: React.FC<SearchProps> = ({ loadItems, renderItem }) => {
   const debouncedText = useDebounce(text, 800);
 
   const { data: items, error } = useSWRImmutable(text ? `items:${debouncedText}` : null, () => loadItems(debouncedText));
-  // loading and error
 
   React.useEffect(() => {
     if (items?.length) setOpenDropdown(true);
@@ -34,22 +35,27 @@ const Search: React.FC<SearchProps> = ({ loadItems, renderItem }) => {
   }, []);
 
   return (
-    <form className="relative w-full">
-      <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-        {/* <svg aria-hidden="true" className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
-          </svg> */}
+    <form className="w-full">
+      <div className="relative">
+        <div className="flex absolute inset-y-0 left-3 items-center pointer-events-none w-8 text-gray-500">
+          <MagnifyingGlassIcon />
+        </div>
+        {text && !items && (
+          <div className="flex absolute inset-y-0 right-1 items-center pointer-events-none w-8 text-gray-500">
+            <Spinner />
+          </div>
+        )}
+        <input //
+          type="text"
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full px-10 p-2.5"
+          placeholder="Search"
+          required
+          value={text}
+          onChange={e => setText(e.target.value)}
+          onFocus={() => setOpenDropdown(true)}
+          autoComplete="off"
+        />
       </div>
-      <input //
-        type="text"
-        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full pl-10 p-2.5"
-        placeholder="Search"
-        required
-        value={text}
-        onChange={e => setText(e.target.value)}
-        onFocus={() => setOpenDropdown(true)}
-        autoComplete="off"
-      />
       {!!items?.length && (
         <Dropdown open={isOpenDropdown} setOpen={setOpenDropdown}>
           <div className="bg-white rounded divide-y divide-gray-100 shadow my-1">
@@ -62,6 +68,14 @@ const Search: React.FC<SearchProps> = ({ loadItems, renderItem }) => {
             </Scrollbars>
           </div>
         </Dropdown>
+      )}
+
+      {error && (
+        <div className="mt-2 mb-5">
+          <Alert color="failure" withBorderAccent>
+            {error.message}
+          </Alert>
+        </div>
       )}
     </form>
   );

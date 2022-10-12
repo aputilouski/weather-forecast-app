@@ -4,27 +4,43 @@ import Head from 'next/head';
 import { Search, WeatherForecastCard, HourlyForecast } from '@components';
 import { getCitiesByName, getTenDayForecast, getLocationInfo, getHourlyForecast } from '@api';
 import Router from 'next/router';
-import { Spinner } from 'flowbite-react';
+import { Alert } from 'flowbite-react';
 
 type PageProps = {
   location: LocationInfo;
   tenDayForecast: WeatherForecast[];
   hourlyForecast: HourlyForecast[];
 };
+type PageErrorProps = { error: Error };
 
 export const getServerSideProps: GetServerSideProps = async context => {
   const id = Number(context.query.id);
-  const result = await Promise.all([
-    getLocationInfo(id), //
-    getTenDayForecast(id),
-    getHourlyForecast(id),
-  ]).then(([location, { forecast: tenDayForecast }, { forecast: hourlyForecast }]) => ({ location, tenDayForecast, hourlyForecast }));
-  return {
-    props: { ...result },
-  };
+  try {
+    const result = await Promise.all([
+      getLocationInfo(id), //
+      getTenDayForecast(id),
+      getHourlyForecast(id),
+    ]).then(([location, { forecast: tenDayForecast }, { forecast: hourlyForecast }]) => ({ location, tenDayForecast, hourlyForecast }));
+    return {
+      props: { ...result },
+    };
+  } catch (error) {
+    console.error(error);
+    return { props: { error } };
+  }
 };
 
-const Page: NextPage<PageProps> = ({ location, tenDayForecast, hourlyForecast }) => {
+const Page: NextPage<PageProps | PageErrorProps> = props => {
+  if ('error' in props)
+    return (
+      <Alert color="failure" withBorderAccent>
+        Something went wrong...
+        <br />
+        {props.error.message}
+      </Alert>
+    );
+
+  const { location, tenDayForecast, hourlyForecast } = props;
   const loadItems = (text: string) => getCitiesByName(text).then(data => data.locations);
   const renderItem = (item: LocationInfo) => (
     <p onClick={() => Router.push(`/city/${item.id}`)} className="py-1 px-4 hover:bg-gray-100 cursor-pointer">
@@ -33,7 +49,7 @@ const Page: NextPage<PageProps> = ({ location, tenDayForecast, hourlyForecast })
   );
 
   return (
-    <div>
+    <>
       <Head>
         <title>Datailed Weather</title>
       </Head>
@@ -65,7 +81,7 @@ const Page: NextPage<PageProps> = ({ location, tenDayForecast, hourlyForecast })
           />
         ))}
       </div>
-    </div>
+    </>
   );
 };
 

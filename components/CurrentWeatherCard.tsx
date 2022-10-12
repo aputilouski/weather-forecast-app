@@ -1,11 +1,10 @@
-import { CurrentWeatherInfo } from '@api';
 import WeatherIcon from './WeatherIcon';
 import moment from 'moment';
 import clsx from 'clsx';
 import DegreesCelciusIcon from '../public/icons/degrees-celcius.svg';
 
 type CurrentWeatherCardProps = {
-  data: CurrentWeatherInfo['current'];
+  data: CurrentForecast;
   className?: string;
   location: LocationInfo;
 };

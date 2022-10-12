@@ -34,7 +34,7 @@ const CurrentWeatherCard = ({ data, className, location }: CurrentWeatherCardPro
 
     <div className="flex-1 flex flex-col gap-2.5 items-start text-sm tracking-tight">
       <p>
-        Wind: {data.windSpeed} m/s, {data.windDirString}
+        Wind: {data.windSpeed} m/s, {data.windDirString}, max: {data.windGust} m/s
       </p>
       <p>Humidity: {data.relHumidity} %</p>
       <p>Precipitation probability: {data.precipProb} %</p>

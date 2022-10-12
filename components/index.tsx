@@ -5,3 +5,4 @@ export { default as CurrentWeatherCard } from './CurrentWeatherCard';
 export { default as WeatherForecastCard } from './WeatherForecastCard';
 export { ProvideLayoutErrorManager, useLayoutError as useLayoutErrorManager } from './LayoutErrorManager';
 export { default as WeatherIcon } from './WeatherIcon';
+export { default as HourlyForecast } from './HourlyForecast';

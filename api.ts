@@ -1,9 +1,7 @@
 // https://developer.foreca.com/
 
-import { WeatherIconType } from '@utils/weather-icon';
-
 const API_HEADERS = {
-  'X-RapidAPI-Key': '79c2f76d39mshde3bde9f03e6668p10c3f3jsne47601d5ea49',
+  'X-RapidAPI-Key': '8c94197dd4mshce3e7442a8f56b3p1751eejsne924517a4c3d',
   'X-RapidAPI-Host': 'foreca-weather.p.rapidapi.com',
 };
 
@@ -14,25 +12,7 @@ export const getCitiesByName = (name: string): Promise<{ locations: LocationInfo
   ).then(response => response.json());
 
 export type CurrentWeatherInfo = {
-  current: {
-    time: string;
-    temperature: number;
-    feelsLikeTemp: number;
-    relHumidity: number;
-    dewPoint: number;
-    windSpeed: number;
-    windDir: number;
-    windDirString: string;
-    windGust: number;
-    precipProb: number;
-    precipRate: number;
-    cloudiness: number;
-    thunderProb: number;
-    uvIndex: number;
-    pressure: number;
-    visibility: number;
-    symbol: WeatherIconType;
-  };
+  current: CurrentForecast;
 };
 
 export const getCurrentWeather = (id: number): Promise<CurrentWeatherInfo> =>
@@ -40,16 +20,6 @@ export const getCurrentWeather = (id: number): Promise<CurrentWeatherInfo> =>
     `https://foreca-weather.p.rapidapi.com/current/${id}?alt=0&tempunit=C&windunit=MS`, //
     { method: 'GET', headers: API_HEADERS }
   ).then(response => response.json());
-
-export type WeatherForecast = {
-  date: string;
-  maxTemp: number;
-  minTemp: number;
-  maxWindSpeed: number;
-  precipAccum: number;
-  windDir: number;
-  symbol: WeatherIconType;
-};
 
 export type WeatherForecastInfo = {
   forecast: WeatherForecast[];
@@ -81,8 +51,8 @@ export const getTenDayForecast = (id: number): Promise<WeatherForecastInfo> =>
     { method: 'GET', headers: API_HEADERS }
   ).then(response => response.json());
 
-export const getHourlyForecast = (id: number): Promise<WeatherForecastInfo> =>
+export const getHourlyForecast = (id: number, history: boolean = false): Promise<{ forecast: HourlyForecast[] }> =>
   fetch(
-    `https://foreca-weather.p.rapidapi.com/forecast/hourly/${id}?alt=0&tempunit=C&windunit=MS&periods=12&history=1`, //
+    `https://foreca-weather.p.rapidapi.com/forecast/hourly/${id}?alt=0&tempunit=C&windunit=MS&periods=12${history && '&history=1'}`, //
     { method: 'GET', headers: API_HEADERS }
   ).then(response => response.json());

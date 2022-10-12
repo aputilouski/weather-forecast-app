@@ -11,6 +11,7 @@ type PageProps = {
   tenDayForecast: WeatherForecast[];
   hourlyForecast: HourlyForecast[];
 };
+
 type PageErrorProps = { error: Error };
 
 export const getServerSideProps: GetServerSideProps = async context => {
@@ -41,6 +42,7 @@ const Page: NextPage<PageProps | PageErrorProps> = props => {
     );
 
   const { location, tenDayForecast, hourlyForecast } = props;
+
   const loadItems = (text: string) => getCitiesByName(text).then(data => data.locations);
   const renderItem = (item: LocationInfo) => (
     <p onClick={() => Router.push(`/city/${item.id}`)} className="py-1 px-4 hover:bg-gray-100 cursor-pointer">

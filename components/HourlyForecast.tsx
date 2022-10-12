@@ -69,4 +69,5 @@ const HourlyForecast = ({ className, data }: HourlyForecastProps) => {
   );
 };
 
+// memo to avoid unnecessary heavy component updates
 export default React.memo(HourlyForecast);

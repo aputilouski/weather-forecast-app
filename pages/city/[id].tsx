@@ -15,7 +15,9 @@ type PageProps = {
 type PageErrorProps = { error: Error };
 
 export const getServerSideProps: GetServerSideProps = async context => {
+  // I use id and not name because my api doesn't allow to implement it with name
   const id = Number(context.query.id);
+
   try {
     const result = await Promise.all([
       getLocationInfo(id), //
@@ -43,6 +45,7 @@ const Page: NextPage<PageProps | PageErrorProps> = props => {
 
   const { location, tenDayForecast, hourlyForecast } = props;
 
+  // prepare handlers for the search component
   const loadItems = (text: string) => getCitiesByName(text).then(data => data.locations);
   const renderItem = (item: LocationInfo) => (
     <p onClick={() => Router.push(`/city/${item.id}`)} className="py-1 px-4 hover:bg-gray-100 cursor-pointer">
@@ -56,10 +59,12 @@ const Page: NextPage<PageProps | PageErrorProps> = props => {
         <title>Datailed Weather</title>
       </Head>
 
+      {/* searh */}
       <div className="mb-8">
         <Search loadItems={loadItems} renderItem={renderItem} />
       </div>
 
+      {/* selected location */}
       <h1 className="text-3xl text-center font-semibold mt-24 mb-16">
         Weather in {location.name}, {location.country}
       </h1>
@@ -68,12 +73,14 @@ const Page: NextPage<PageProps | PageErrorProps> = props => {
 
       <h4 className="text-xl font-semibold mb-5 text-center">Hourly forecast:</h4>
 
+      {/* show hourly forecast */}
       <HourlyForecast className="mx-auto mb-10" data={hourlyForecast} />
 
       <hr className="mb-12 h-px bg-gray-200 border-0" />
 
       <h4 className="text-xl font-semibold mb-5 text-center">10 day forecast:</h4>
 
+      {/* show forecast for 10 days */}
       <div className="mb-20 grid grid-cols-5 gap-3">
         {tenDayForecast.map(data => (
           <WeatherForecastCard //

@@ -1,5 +1,7 @@
 // https://developer.foreca.com/
 
+import { WeatherIconType } from '@utils/weather-icon';
+
 const API_HEADERS = {
   'X-RapidAPI-Key': '79c2f76d39mshde3bde9f03e6668p10c3f3jsne47601d5ea49',
   'X-RapidAPI-Host': 'foreca-weather.p.rapidapi.com',
@@ -45,7 +47,7 @@ export type WeatherForecast = {
   maxWindSpeed: number;
   precipAccum: number;
   windDir: number;
-  symbol: string;
+  symbol: WeatherIconType;
 };
 
 export type WeatherForecastInfo = {
@@ -60,9 +62,15 @@ export const getThreeDayForecast = (id: number): Promise<WeatherForecastInfo> =>
 
 export const getCurrentWeatherWithThreeDayForecast = (id: number): Promise<CurrentWeatherInfo & WeatherForecastInfo> => Promise.all([getCurrentWeather(id), getThreeDayForecast(id)]).then(([currentData, forecastData]) => ({ current: currentData.current, forecast: forecastData.forecast }));
 
-export const getLocationInfo = (longitude: number, latitude: number): Promise<LocationInfo> =>
+export const getLocationInfoByCoordinates = (longitude: number, latitude: number): Promise<LocationInfo> =>
   fetch(
     `https://foreca-weather.p.rapidapi.com/location/${longitude},${latitude}`, //
+    { method: 'GET', headers: API_HEADERS }
+  ).then(response => response.json());
+
+export const getLocationInfo = (id: number): Promise<LocationInfo> =>
+  fetch(
+    `https://foreca-weather.p.rapidapi.com/location/${id}`, //
     { method: 'GET', headers: API_HEADERS }
   ).then(response => response.json());
 

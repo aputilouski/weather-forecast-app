@@ -3,7 +3,7 @@ import type { NextPage } from 'next';
 import Link from 'next/link';
 import { Alert, Spinner } from 'flowbite-react';
 import { CurrentWeatherCard, WeatherForecastCard, useLayoutErrorManager } from '@components';
-import { getLocationInfo, getCurrentWeatherWithThreeDayForecast } from '@api';
+import { getLocationInfoByCoordinates, getCurrentWeatherWithThreeDayForecast } from '@api';
 import useSWRImmutable from 'swr/immutable';
 import clsx from 'clsx';
 import { DEFAULT_LOCATIONS, DEFAULT_LOCATION_ID } from '@utils/globals';
@@ -44,7 +44,7 @@ const Page: NextPage = () => {
     if (!navigator.geolocation) return;
     navigator.geolocation.getCurrentPosition(function (pos) {
       const { latitude, longitude } = pos.coords;
-      getLocationInfo(longitude, latitude) //
+      getLocationInfoByCoordinates(longitude, latitude) //
         .then(response => {
           const { id, name, country } = response;
           setLocations(locations => (locations.find(l => l.id === id) ? locations : [{ id, name, country }, ...locations]));

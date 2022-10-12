@@ -6,14 +6,9 @@ import { CurrentWeatherCard, WeatherForecastCard, useLayoutErrorManager } from '
 import { getLocationInfo, getCurrentWeatherWithThreeDayForecast } from '@api';
 import useSWRImmutable from 'swr/immutable';
 import clsx from 'clsx';
+import { DEFAULT_LOCATIONS, DEFAULT_LOCATION_ID } from '@utils/globals';
 
-const DEFAULT_LOCATIONS = [
-  { id: 100625144, name: 'Minsk', country: 'Belarus' }, //
-  { id: 100524901, name: 'Moscow', country: 'Russia' },
-  { id: 103060972, name: 'Bratislava', country: 'Slovakia' },
-];
 const LOCATION_ID_KEY = 'location-id';
-const DEFAULT_LOCATION_ID = 100625144;
 
 const Page: NextPage = () => {
   const [locations, setLocations] = React.useState(DEFAULT_LOCATIONS);
@@ -102,7 +97,7 @@ const Page: NextPage = () => {
       )}
 
       <div className="mb-20">
-        <Link href="/in">
+        <Link href="/city">
           <a className="text-blue-600 hover:underline">Hourly weather and 10 day forecast</a>
         </Link>
       </div>

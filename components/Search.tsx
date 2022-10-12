@@ -4,7 +4,6 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import Dropdown from './Dropdown';
 import useSWRImmutable from 'swr/immutable';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
-// import { Dropdown} from 'flowbite-react';
 import { Alert, Spinner } from 'flowbite-react';
 
 type SearchProps = {
@@ -35,9 +34,9 @@ const Search: React.FC<SearchProps> = ({ loadItems, renderItem }) => {
   }, []);
 
   return (
-    <form className="w-full">
+    <form className="relative w-full">
       <div className="relative">
-        <div className="flex absolute inset-y-0 left-3 items-center pointer-events-none w-8 text-gray-500">
+        <div className="flex absolute inset-y-0 left-3 items-center pointer-events-none w-6 text-gray-500">
           <MagnifyingGlassIcon />
         </div>
         {text && !items && (
@@ -56,6 +55,7 @@ const Search: React.FC<SearchProps> = ({ loadItems, renderItem }) => {
           autoComplete="off"
         />
       </div>
+
       {!!items?.length && (
         <Dropdown open={isOpenDropdown} setOpen={setOpenDropdown}>
           <div className="bg-white rounded divide-y divide-gray-100 shadow my-1">

@@ -38,16 +38,18 @@ export const getCurrentWeather = (id: number): Promise<CurrentWeatherInfo> =>
     { method: 'GET', headers: API_HEADERS }
   ).then(response => response.json());
 
+export type WeatherForecast = {
+  date: string;
+  maxTemp: number;
+  minTemp: number;
+  maxWindSpeed: number;
+  precipAccum: number;
+  windDir: number;
+  symbol: string;
+};
+
 export type WeatherForecastInfo = {
-  forecast: {
-    date: string;
-    maxTemp: number;
-    minTemp: number;
-    maxWindSpeed: number;
-    precipAccum: number;
-    windDir: number;
-    symbol: string;
-  }[];
+  forecast: WeatherForecast[];
 };
 
 export const getThreeDayForecast = (id: number): Promise<WeatherForecastInfo> =>
@@ -67,5 +69,11 @@ export const getLocationInfo = (longitude: number, latitude: number): Promise<Lo
 export const getTenDayForecast = (id: number): Promise<WeatherForecastInfo> =>
   fetch(
     `https://foreca-weather.p.rapidapi.com/forecast/daily/${id}?alt=0&tempunit=C&windunit=MS&periods=10`, //
+    { method: 'GET', headers: API_HEADERS }
+  ).then(response => response.json());
+
+export const getHourlyForecast = (id: number): Promise<WeatherForecastInfo> =>
+  fetch(
+    `https://foreca-weather.p.rapidapi.com/forecast/hourly/${id}?alt=0&tempunit=C&windunit=MS&periods=12&history=1`, //
     { method: 'GET', headers: API_HEADERS }
   ).then(response => response.json());

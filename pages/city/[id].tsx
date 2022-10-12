@@ -48,7 +48,7 @@ const Page: NextPage<PageProps> = ({ location, tenDayForecast, hourlyForecast })
 
       <h4 className="text-2xl font-semibold mb-3">10 day forecast:</h4>
 
-      <div className="flex gap-3 flex-wrap">
+      <div className="mb-20 grid grid-cols-5 gap-3">
         {tenDayForecast.map(data => (
           <WeatherForecastCard key={data.date} data={data} />
         ))}

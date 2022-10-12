@@ -28,4 +28,4 @@ export const ProvideLayoutErrorManager = ({ children }: { children: JSX.Element 
   );
 };
 
-export const useLayoutErrorManager = () => React.useContext(LayoutErrorManagerContext);
+export const useLayoutError = () => React.useContext(LayoutErrorManagerContext);

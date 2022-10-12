@@ -1,12 +1,17 @@
 import { WeatherForecast } from '@api';
-import { Card } from 'flowbite-react';
 import WeatherIcon from './WeatherIcon';
 import moment from 'moment';
 import DegreesCelciusIcon from '../public/icons/degrees-celcius.svg';
 import { degToCompass } from '@utils/helhers';
+import clsx from 'clsx';
 
-const WeatherForecastCard = ({ data }: { data: WeatherForecast }) => (
-  <div className="flex flex-col shadow-lg rounded px-5 py-8 gap-2 items-center">
+type WeatherForecastCardProps = {
+  data: WeatherForecast;
+  className?: string;
+};
+
+const WeatherForecastCard = ({ data, className }: WeatherForecastCardProps) => (
+  <div className={clsx('flex flex-col shadow-lg rounded px-5 py-8 gap-2 items-center', className)}>
     <p className="mb-1">{moment(data.date).format('dddd DD MMM')}</p>
     <p className="text-xl">
       <span className="align-middle">
@@ -15,10 +20,10 @@ const WeatherForecastCard = ({ data }: { data: WeatherForecast }) => (
       <DegreesCelciusIcon className="inline-block ml-2 w-5" />
     </p>
     <WeatherIcon symbol={data.symbol} className="w-24 my-3" />
-    <p className="text-sm">
+    <p className="text-sm tracking-tight">
       Wind: {data.maxWindSpeed} m/s, {degToCompass(data.windDir)}
     </p>
-    <p className="text-sm">PrecipAccum: {data.precipAccum}</p>
+    <p className="text-sm tracking-tight">AccumPrecip: {data.precipAccum} mm/h</p>
   </div>
 );
 

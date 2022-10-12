@@ -31,6 +31,7 @@ export type CurrentWeatherInfo = {
     uvIndex: number;
     pressure: number;
     visibility: number;
+    symbol: WeatherIconType;
   };
 };
 

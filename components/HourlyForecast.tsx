@@ -24,8 +24,9 @@ const HourlyForecast = ({ className, data }: HourlyForecastProps) => {
       h: moment(forecast.time).format('HH') + ' h',
       ...forecast,
     }));
-    const maxT = Math.max(...values.map(f => f.y));
-    const minT = Math.min(...values.map(f => f.y));
+    const temperatures = values.map(f => f.y);
+    const maxT = Math.max(...temperatures);
+    const minT = Math.min(...temperatures);
     setState({ values, minT, maxT });
   }, [data]);
 

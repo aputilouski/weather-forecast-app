@@ -90,7 +90,7 @@ const PageContent = ({ locations, locationID, setLocationID, userLocationID }: P
 // here the page is split into two components to separate the logic from the location definition
 
 const Page: NextPage = () => {
-  // in react 17 I would use useDispatch for the logic below
+  // in react 17 I would use useReducer for the logic below
   const [locations, setLocations] = React.useState(DEFAULT_LOCATIONS);
   const startLocationUseIndicatorRef = React.useRef(false);
   const [locationID, setLocationID] = React.useState<number>();

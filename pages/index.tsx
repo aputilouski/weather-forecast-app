@@ -22,6 +22,7 @@ const PageContent = ({ locations, locationID, setLocationID, userLocationID }: P
 
   // here is a small optimization to avoid array lookup and show useMemo usage example
   const userLocation = React.useMemo(() => locations.find(l => l.id === userLocationID), [locations, userLocationID]);
+  const location = React.useMemo(() => locations.find(l => l.id === locationID), [locations, locationID]);
 
   // useSWR helps cache results (important for limited api like here)
   const { data, error } = useSWRImmutable(`weather:${locationID}`, () => getCurrentWeatherWithThreeDayForecast(locationID || DEFAULT_LOCATION_ID));
@@ -60,7 +61,7 @@ const PageContent = ({ locations, locationID, setLocationID, userLocationID }: P
       {/* show forecast for 3 days */}
       {data ? (
         <div className="mb-10">
-          {userLocation && <CurrentWeatherCard location={userLocation} data={data.current} />}
+          {location && <CurrentWeatherCard location={location} data={data.current} />}
           <div className="mt-3 flex gap-3">
             {data.forecast.map(data => (
               <WeatherForecastCard //
